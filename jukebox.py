@@ -156,7 +156,14 @@ class FSM_jukebox:
 
     def send(self, command: Tuple[str, ...]) -> None:
         assert len(command) == 2
-        self.current_state.send(command)
+        if command[1] != "":
+            fixed_command = (
+                command[0],
+                self.records["records"].get(command[1]).get("uri"),
+            )
+            self.current_state.send(fixed_command)
+        else:
+            self.current_state.send(command)
 
     def _shuffle(self):
         """Randomize, i.e. shuffle. Update internal shuffle tracking variable."""
