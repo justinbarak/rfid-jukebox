@@ -1,0 +1,16 @@
+{
+    "records": {
+        "EASTER_EGG": {
+            "url": "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=7ade7233665542dc",
+            "name": "Never Gonna Give You Up",
+            "image_url": "https://i.scdn.co/image/ab67616d0000b2735755e164993798e0c9ef7d7a",
+            "uri": "spotify:track:4cOdK2wGLETKBW3PvgPWqT"
+        },
+        "RFID_CODE": {
+            "url": "https://open.spotify.com/album/6EdweDU5TYn4mv2t2ZWmJ9?si=d17e6ae5b9dd4c62",
+            "name": "Steadfast (Live from The Gospel Coalition)",
+            "image_url": "https://i.scdn.co/image/ab67616d0000b2731f04800d3123ecff766725cc",
+            "uri": "spotify:album:6EdweDU5TYn4mv2t2ZWmJ9"
+        }
+    }
+}
