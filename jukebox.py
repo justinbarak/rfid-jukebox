@@ -156,7 +156,7 @@ class FSM_jukebox:
 
     def send(self, command: Tuple[str, ...]) -> None:
         assert len(command) == 2
-        if command[1] != "":
+        if command[1] != "" and command[0] == "play":
             fixed_command = (
                 command[0],
                 self.records["records"].get(command[1]).get("uri"),

@@ -11,6 +11,8 @@ from datetime import datetime
 from datetime import timedelta
 from subprocess import call
 import logging
+from simple_button import SimpleButton
+import signal
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -60,8 +62,26 @@ def buttons(messages: Queue) -> None:
         sleep(60)
 
 
+def play_button(messages: Queue) -> None:
+    logging.info("Play Button manager Launched")
+    play_result = ("play", "")
+    pause_result = ("pause", "")
+    button = SimpleButton(
+        pin=40,
+        action=messages.put(play_result),
+        action2=messages.put(pause_result),
+        hold_mode="SecondFunc",
+    )
+    while not shutdown_event.is_set():
+        # dummy up a response
+        # logging.debug("sending dummy pause code")
+        # result = ("pause", "")
+        # messages.put(result)
+        signal.pause()
+
+
 def main() -> None:
-    messages = Queue()
+    messages = Queue(maxsize=3)
 
     logging.info("Launching Queue process")
     Process(target=process_queue, args=(messages,)).start()
