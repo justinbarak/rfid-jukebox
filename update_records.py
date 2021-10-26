@@ -18,7 +18,7 @@ def main() -> None:
     # Initialize
     load_dotenv()
     SPOTIFY_USERNAME: int = int(os.environ.get("SPOTIFY_USERNAME"))  # type: ignore
-    sp, sp_auth = spotipy_instance(username=SPOTIFY_USERNAME)
+    sp, sp_auth, _ = spotipy_instance(username=SPOTIFY_USERNAME)
 
     for key in records_dict["records"].keys():
         item = records_dict["records"][key]

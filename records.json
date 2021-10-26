@@ -14,31 +14,45 @@
         },
         "code1": {
             "url": "https://open.spotify.com/album/5FAZnULoSjGcLS5bOpn6lO?si=ehO5CRO7QZ6azpq75yxa3Q",
-            "name": "Veggie Tales Silly Songs with Larry"
+            "name": "And Now It\u2019s Time For Silly Songs With Larry",
+            "image_url": "https://i.scdn.co/image/ab67616d0000b2730ef169a5fdbd3416a8826643",
+            "uri": "spotify:album:5FAZnULoSjGcLS5bOpn6lO"
         },
         "code2": {
             "url": "https://open.spotify.com/album/1xPb1xOhp2D1tL4xbY5QM9?si=WRlF1B43TIWMpiix-o3gDw",
-            "name": "VT Bible Songs"
+            "name": "25 Favorite Sunday School Songs!",
+            "image_url": "https://i.scdn.co/image/ab67616d0000b2736865bf80ec3b9c68c079ac4a",
+            "uri": "spotify:album:1xPb1xOhp2D1tL4xbY5QM9"
         },
         "code3": {
             "url": "https://open.spotify.com/playlist/02Hsq4QS8kyaaYOPV9eGGD?si=66412d3661ca4dde",
-            "name": "Little Einsteins Music"
+            "name": "Music From Little Einsteins",
+            "image_url": "https://i.scdn.co/image/ab67706c0000bebb1c179a36847ea86e41480883",
+            "uri": "spotify:playlist:02Hsq4QS8kyaaYOPV9eGGD"
         },
         "code4": {
             "url": "https://open.spotify.com/playlist/7rUYzXW6CLoKXloKn0E4Y5?si=b42e384f2bf04f58",
-            "name": "TGC Quality Music for Kids"
+            "name": "Quality Christian Music for Kids",
+            "image_url": "https://mosaic.scdn.co/640/ab67616d0000b2730b146ac718c8bbce28de2c98ab67616d0000b27312bed9732cd0bb7d8088dc1aab67616d0000b273d43d654acfc4d56ca0d6a498ab67616d0000b273fc6024280116ff1d24791369",
+            "uri": "spotify:playlist:7rUYzXW6CLoKXloKn0E4Y5"
         },
         "code5": {
             "url": "https://open.spotify.com/album/278spUCAxNbIf5sVtQnike?si=1RLBx-6kTJOMyaQMSmXvRw",
-            "name": "Sparkle. Pop. Rampage."
+            "name": "SPARKLE. POP. RAMPAGE.",
+            "image_url": "https://i.scdn.co/image/ab67616d0000b273fc6024280116ff1d24791369",
+            "uri": "spotify:album:278spUCAxNbIf5sVtQnike"
         },
         "code6": {
             "url": "https://open.spotify.com/album/5WEtr153uNOBZgHJC7QVkY?si=aelYwi82SRm-wkfRAuQ_Tg",
-            "name": "Jesus Kids-Shai Linne"
+            "name": "Jesus Kids",
+            "image_url": "https://i.scdn.co/image/ab67616d0000b273813d0f4f6f0ae492fbeebd2d",
+            "uri": "spotify:album:5WEtr153uNOBZgHJC7QVkY"
         },
         "code7": {
             "url": "https://open.spotify.com/playlist/7LlzRvcCHFjWHA89IMDbDV?si=6fb7e235271f4f20",
-            "name": "Classical Music for Babies"
+            "name": "Classical Music For Babies \ud83d\udc76\ud83e\udd30 - Baby Mozart Effect",
+            "image_url": "https://i.scdn.co/image/ab67706c0000bebb04a5fdd213aab4c343089f10",
+            "uri": "spotify:playlist:7LlzRvcCHFjWHA89IMDbDV"
         }
     }
 }
