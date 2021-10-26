@@ -156,7 +156,7 @@ class FSM_jukebox:
 
     def send(self, command: Tuple[str, ...]) -> None:
         assert len(command) == 2
-        if command[1] != "" and command[0] == "play":
+        if command[1] != "" and command[0] == "play/pause":
             fixed_command = (
                 command[0],
                 self.records["records"].get(command[1]).get("uri"),
@@ -254,7 +254,7 @@ class FSM_jukebox:
 
     @staticmethod
     def _command_options() -> list:
-        options = ["stop", "play", "pause", "forward", "reverse", "randomize"]
+        options = ["stop", "play/pause", "forward", "reverse", "randomize"]
         return options
 
     def __repr__(self) -> str:
@@ -265,16 +265,14 @@ class FSM_jukebox:
     def _create_stopped(self) -> Generator:
         while True:
             command: str = yield
-            if command[0].lower() == "play":
+            if command[0].lower() == "play/pause":
                 if command[1] != "":
                     # actually call the function to play the song
                     self._play(command[1])
                 else:
-                    # Pressing play while stopped does nothing
+                    # Pressing play/pause while stopped does nothing
                     pass
             elif command[0].lower() == "stop":
-                pass
-            elif command[0].lower() == "pause":
                 pass
             elif command[0].lower() == "forward":
                 # Skipping Forward while stopped does nothing
@@ -292,17 +290,15 @@ class FSM_jukebox:
     def _create_playing(self) -> Generator:
         while True:
             command: str = yield
-            if command[0].lower() == "play":
+            if command[0].lower() == "play/pause":
                 if command[1] != "":
                     # actually call the function to play the song
                     self._play(command[1])
                 else:
-                    # Pressing play while playing does nothing
-                    pass
+                    # Pressing play/pause while playing pauses
+                    self._pause()
             elif command[0].lower() == "stop":
                 self._stop()
-            elif command[0].lower() == "pause":
-                self._pause()
             elif command[0].lower() == "forward":
                 # Skipping Forward skips to next track
                 self._forward()
@@ -319,7 +315,7 @@ class FSM_jukebox:
     def _create_paused(self) -> Generator:
         while True:
             command: str = yield
-            if command[0].lower() == "play":
+            if command[0].lower() == "play/pause":
                 if command[1] != "":
                     # actually call the function to play the song
                     self._play(command[1])
@@ -328,8 +324,6 @@ class FSM_jukebox:
                     self._resume()
             elif command[0].lower() == "stop":
                 self._stop()
-            elif command[0].lower() == "pause":
-                pass
             elif command[0].lower() == "forward":
                 # Skipping Forward while paused starts playback and skips to next track
                 self._forward()

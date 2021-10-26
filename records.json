@@ -1,6 +1,6 @@
 {
     "records": {
-        "EASTER_EGG": {
+        "597678569214": {
             "url": "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=7ade7233665542dc",
             "name": "Never Gonna Give You Up",
             "image_url": "https://i.scdn.co/image/ab67616d0000b2735755e164993798e0c9ef7d7a",
@@ -11,6 +11,34 @@
             "name": "Steadfast (Live from The Gospel Coalition)",
             "image_url": "https://i.scdn.co/image/ab67616d0000b2731f04800d3123ecff766725cc",
             "uri": "spotify:album:6EdweDU5TYn4mv2t2ZWmJ9"
+        },
+        "code1": {
+            "url": "https://open.spotify.com/album/5FAZnULoSjGcLS5bOpn6lO?si=ehO5CRO7QZ6azpq75yxa3Q",
+            "name": "Veggie Tales Silly Songs with Larry"
+        },
+        "code2": {
+            "url": "https://open.spotify.com/album/1xPb1xOhp2D1tL4xbY5QM9?si=WRlF1B43TIWMpiix-o3gDw",
+            "name": "VT Bible Songs"
+        },
+        "code3": {
+            "url": "https://open.spotify.com/playlist/02Hsq4QS8kyaaYOPV9eGGD?si=66412d3661ca4dde",
+            "name": "Little Einsteins Music"
+        },
+        "code4": {
+            "url": "https://open.spotify.com/playlist/7rUYzXW6CLoKXloKn0E4Y5?si=b42e384f2bf04f58",
+            "name": "TGC Quality Music for Kids"
+        },
+        "code5": {
+            "url": "https://open.spotify.com/album/278spUCAxNbIf5sVtQnike?si=1RLBx-6kTJOMyaQMSmXvRw",
+            "name": "Sparkle. Pop. Rampage."
+        },
+        "code6": {
+            "url": "https://open.spotify.com/album/5WEtr153uNOBZgHJC7QVkY?si=aelYwi82SRm-wkfRAuQ_Tg",
+            "name": "Jesus Kids-Shai Linne"
+        },
+        "code7": {
+            "url": "https://open.spotify.com/playlist/7LlzRvcCHFjWHA89IMDbDV?si=6fb7e235271f4f20",
+            "name": "Classical Music for Babies"
         }
     }
 }

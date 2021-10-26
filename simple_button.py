@@ -228,8 +228,11 @@ class SimpleButton:
 
 if __name__ == "__main__":
     print("please enter pin no to test")
-    pin = int(input())
+    pin = int(36)  # int(input())
     func = lambda *args: print("FunctionCall with {}".format(args))
+    func2 = lambda *args: print("Second FunctionCall with {}".format(args))
     btn = SimpleButton(pin=pin, action=func, hold_mode="SecondFunc")
     print(btn)
+    btn2 = SimpleButton(pin=int(37), action=func2, hold_mode="SecondFunc")
+    print(btn2)
     pause()

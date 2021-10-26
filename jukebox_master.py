@@ -13,6 +13,7 @@ from subprocess import call
 import logging
 from simple_button import SimpleButton
 import signal
+from read_rfid import get_reading
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -40,48 +41,45 @@ def process_queue(messages: Queue) -> None:
 
 def rfid_reader(messages: Queue) -> None:
     logging.info("RFID Reader Launched")
-    while not shutdown_event.is_set():
-        # do a thing with rfid
-        sleep(10)
-        # dummy up a response
-        logging.debug("sending dummy RFID code to message queue")
-        result = ("play", "RFID_CODE")
-        messages.put(result)
-        sleep(60)
+    try:
+        while not shutdown_event.is_set():
+            rfid_response = get_reading()
+            if rfid_response != None:
+                logging.debug(f"RFID Response - {rfid_response}")
+                result = ("play/pause", rfid_response)
+                messages.put(result)
+                sleep(4)
+            else:
+                sleep(0.05)
+    except KeyboardInterrupt:
+        pass
 
 
 def buttons(messages: Queue) -> None:
     logging.info("Button manager Launched")
-    while not shutdown_event.is_set():
-        # get button input
-        sleep(20)
-        # dummy up a response
-        logging.debug("sending dummy pause code")
-        result = ("pause", "")
-        messages.put(result)
-        sleep(60)
-
-
-def play_button(messages: Queue) -> None:
-    logging.info("Play Button manager Launched")
-    play_result = ("play", "")
-    pause_result = ("pause", "")
-    button = SimpleButton(
-        pin=40,
-        action=messages.put(play_result),
-        action2=messages.put(pause_result),
-        hold_mode="SecondFunc",
-    )
-    while not shutdown_event.is_set():
-        # dummy up a response
-        # logging.debug("sending dummy pause code")
-        # result = ("pause", "")
-        # messages.put(result)
+    # ["play/pause", "stop", "forward", "reverse", "randomize"]
+    # create functions for each button
+    play_result = lambda *args: messages.put(("play/pause", ""))
+    stop_result = lambda *args: messages.put(("stop", ""))
+    forward_result = lambda *args: messages.put(("forward", ""))
+    reverse_result = lambda *args: messages.put(("reverse", ""))
+    randomize_result = lambda *args: messages.put(("randomize", ""))
+    # create buttons
+    play_button = SimpleButton(pin=int(36), action=play_result)
+    stop_button = SimpleButton(pin=int(37), action=stop_result)
+    forward_button = SimpleButton(pin=int(29), action=forward_result)
+    reverse_button = SimpleButton(pin=int(31), action=reverse_result)
+    randomize_button = SimpleButton(pin=int(16), action=randomize_result)
+    # while not shutdown_event.is_set():
+    logging.debug("Buttons created")
+    try:
         signal.pause()
+    except KeyboardInterrupt:
+        pass
 
 
 def main() -> None:
-    messages = Queue(maxsize=3)
+    messages = Queue(maxsize=6)
 
     logging.info("Launching Queue process")
     Process(target=process_queue, args=(messages,)).start()
@@ -98,7 +96,7 @@ def main() -> None:
     try:
         while not shutdown_event.is_set():
 
-            sleep(0.1)
+            sleep(0.01)
 
     except KeyboardInterrupt:
         shutdown_event.set()
