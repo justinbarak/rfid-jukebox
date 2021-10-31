@@ -14,25 +14,30 @@ import logging
 from simple_button import SimpleButton
 import signal
 from read_rfid import get_reading
+from volume_control import VolumeControl
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s %(process)d-%(levelname)s %(message)s",
     datefmt="%m/%d/%Y %I:%M:%S %p",
 )
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 
 shutdown_event = Event()
 
 
 def process_queue(messages: Queue) -> None:
-    logging.info("Queue Processor Launched")
+    logger.info("Queue Processor Launched")
     jukebox = FSM_jukebox()
     try:
         while not shutdown_event.is_set():
             # wait until there is a message in the queue
             # logging.debug(messages.get())
             command = messages.get()
-            logging.debug(command)
+            logger.debug(command)
             jukebox.send(command=command)
             sleep(0.05)
     except KeyboardInterrupt:
@@ -40,13 +45,13 @@ def process_queue(messages: Queue) -> None:
 
 
 def rfid_reader(messages: Queue) -> None:
-    logging.info("RFID Reader Launched")
+    logger.info("RFID Reader Launched")
     try:
         while not shutdown_event.is_set():
             rfid_response = get_reading()
             if rfid_response != None:
-                logging.debug(f"RFID Response - {rfid_response}")
-                result = ("play/pause", rfid_response)
+                logger.debug(f"RFID Response - {rfid_response}")
+                result = ("play/pause", str(rfid_response))
                 messages.put(result)
                 sleep(4)
             else:
@@ -56,7 +61,7 @@ def rfid_reader(messages: Queue) -> None:
 
 
 def buttons(messages: Queue) -> None:
-    logging.info("Button manager Launched")
+    logger.info("Button manager Launched")
     # ["play/pause", "stop", "forward", "reverse", "randomize"]
     # create functions for each button
     play_result = lambda *args: messages.put(("play/pause", ""))
@@ -66,32 +71,49 @@ def buttons(messages: Queue) -> None:
     randomize_result = lambda *args: messages.put(("randomize", ""))
     # create buttons
     play_button = SimpleButton(pin=int(36), action=play_result)
-    stop_button = SimpleButton(pin=int(37), action=stop_result)
+    stop_button = SimpleButton(pin=int(13), action=stop_result)
     forward_button = SimpleButton(pin=int(29), action=forward_result)
     reverse_button = SimpleButton(pin=int(31), action=reverse_result)
     randomize_button = SimpleButton(pin=int(16), action=randomize_result)
     # while not shutdown_event.is_set():
-    logging.debug("Buttons created")
+    logger.debug("Buttons created")
+    try:
+        while True:
+            signal.pause()
+    except KeyboardInterrupt:
+        pass
+
+
+def volume_process() -> None:
+    logger.info("Volume process launched")
+    volume = VolumeControl()
+    logger.debug("Volume object created")
     try:
         signal.pause()
     except KeyboardInterrupt:
         pass
+    finally:
+        logger.debug("Volume process ended")
 
 
 def main() -> None:
     messages = Queue(maxsize=6)
 
-    logging.info("Launching Queue process")
+    logger.info("Launching Queue process")
     Process(target=process_queue, args=(messages,)).start()
-    logging.debug("Back from launch")
+    logger.debug("Back from launch")
 
-    logging.info("Launching rfid reader process")
+    logger.info("Launching rfid reader process")
     Process(target=rfid_reader, args=(messages,)).start()
-    logging.debug("Back from launch")
+    logger.debug("Back from launch")
 
-    logging.info("Launching button manager process")
+    logger.info("Launching button manager process")
     Process(target=buttons, args=(messages,)).start()
-    logging.debug("Back from launch")
+    logger.debug("Back from launch")
+
+    logger.info("Launching volume manager process")
+    Process(target=volume_process).start()
+    logger.debug("Back from launch")
 
     try:
         while not shutdown_event.is_set():

@@ -31,6 +31,10 @@ logging.basicConfig(
     datefmt="%m/%d/%Y %I:%M:%S %p",
 )
 
+# limit useless spotify logging details
+spot_logger = logging.getLogger("spotipy")
+spot_logger.setLevel(logging.WARNING)
+
 
 def spotipy_instance(
     username: int,
@@ -215,13 +219,17 @@ class FSM_jukebox:
     def _stop(self) -> None:
         """Stops playing current track, moves to stopped state."""
         if self._active_device() == True:
-            self.sp.start_playback(device_id=self.device_id)
+            self.sp.pause_playback(device_id=self.device_id)
         self.current_state = self.stopped
 
     def _play(self, uri: str) -> None:
         """Starts playback of uri on jukebox."""
-        self.sp.start_playback(device_id=self.device_id, context_uri=uri)
-        self.current_state = self.playing
+        if "spotify:track:" in uri:
+            self.sp.start_playback(device_id=self.device_id, uris=[uri])
+            self.current_state = self.playing
+        else:
+            self.sp.start_playback(device_id=self.device_id, context_uri=uri)
+            self.current_state = self.playing
 
     def _pause(self) -> None:
         """Pauses playback on jukebox."""

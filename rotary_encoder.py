@@ -179,7 +179,7 @@ class RotaryEncoder:
 
 if __name__ == "__main__":
     logging.basicConfig(level="INFO")
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BOARD)
     pin1 = int(input("please enter first pin"))
     pin2 = int(input("please enter second pin"))
     func1 = lambda *args: print("Function Incr executed with {}".format(args))
