@@ -86,7 +86,7 @@ def buttons(messages: Queue) -> None:
 
 def volume_process() -> None:
     logger.info("Volume process launched")
-    volume = VolumeControl()
+    volume = VolumeControl(MAX_VOLUME=50)
     logger.debug("Volume object created")
     try:
         signal.pause()

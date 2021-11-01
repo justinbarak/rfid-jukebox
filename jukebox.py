@@ -21,7 +21,7 @@ import json
 load_dotenv()
 CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
-SPOTIFY_USERNAME = int(os.environ.get("SPOTIFY_USERNAME"))  # type: ignore
+SPOTIFY_USERNAME = os.environ.get("SPOTIFY_USERNAME")
 REDIRECT_URI = "http://127.0.0.1:7070"
 
 
@@ -37,7 +37,7 @@ spot_logger.setLevel(logging.WARNING)
 
 
 def spotipy_instance(
-    username: int,
+    username: str,
 ) -> List[Union[spotipy.client.Spotify, SpotifyOAuth, Dict]]:
     """Returns a 'spotipy.Spotify' instance. Will request authenication at Redirect URL if not logged in before.
     Parameter username: integer found in Spotify profile
