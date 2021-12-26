@@ -148,13 +148,13 @@ class FSM_jukebox:
 
     def _refresh(self) -> None:
         """A function running in a separate daemon thread which will refresh spotify credentials"""
-        interval = 55 * 60  # 55 minutes
+        interval = 5 * 60  # testing every 5 minutes to keep connection alive
         while True:
             logging.debug("Locking FSM for refresh")
             with self._lock:
                 self.token = refresh_token(self.sp_auth, self.sp, self.token)
-                # Make sure jukebox did not change id
-                self.device_id = get_jukebox_id(self.sp)
+            # Make sure jukebox did not change id
+            self.device_id = get_jukebox_id(self.sp)
             logging.debug("Refresh completed, unlocking FSM")
             time.sleep(interval)
 
