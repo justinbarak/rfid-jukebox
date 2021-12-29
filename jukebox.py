@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyOAuth
 import os
 import json
+import socket
 
 # Initialize
 load_dotenv()
@@ -93,7 +94,7 @@ def refresh_token(
     token_info = sp_auth.refresh_access_token(whole_token["refresh_token"])
     token = token_info["access_token"]
     sp = spotipy.Spotify(auth=token)
-    return token_info
+    return token_info, sp
 
 
 def get_jukebox_id(sp: spotipy.client.Spotify) -> str:
@@ -150,13 +151,21 @@ class FSM_jukebox:
         """A function running in a separate daemon thread which will refresh spotify credentials"""
         interval = 5 * 60  # testing every 5 minutes to keep connection alive
         while True:
-            logging.debug("Locking FSM for refresh")
-            with self._lock:
-                self.token = refresh_token(self.sp_auth, self.sp, self.token)
-            # Make sure jukebox did not change id
-            self.device_id = get_jukebox_id(self.sp)
-            logging.debug("Refresh completed, unlocking FSM")
-            time.sleep(interval)
+            try:
+                logging.debug("Locking FSM for refresh")
+                with self._lock:
+                    self.token, self.sp = refresh_token(
+                        self.sp_auth, self.sp, self.token
+                    )
+                # Make sure jukebox did not change id
+                self.device_id = get_jukebox_id(self.sp)
+                logging.debug("Refresh completed, unlocking FSM")
+                time.sleep(interval)
+            except socket.error:
+                logging.debug(
+                    "There was a socket error. Refresh unable to be completed. Retrying in 1 minute..."
+                )
+                time.sleep(60)
 
     def send(self, command: Tuple[str, ...]) -> None:
         assert len(command) == 2

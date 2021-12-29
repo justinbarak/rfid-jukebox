@@ -118,7 +118,7 @@ def main() -> None:
     try:
         while not shutdown_event.is_set():
 
-            sleep(0.01)
+            sleep(0.05)
 
     except KeyboardInterrupt:
         shutdown_event.set()
